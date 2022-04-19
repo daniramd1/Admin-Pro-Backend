@@ -5,6 +5,7 @@ const UsuarioShema = Schema({ //Se estructura el usuario
     nombre: {
         type: String,
         required: true
+
     },
     email: {
         type: String,

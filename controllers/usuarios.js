@@ -9,12 +9,30 @@ const Usuario = require('../models/usuario') //Importamos nuestro Schema para me
 
 const getUsuarios = async(solicitan, responder) => { // lo que se va a ejecutar cuando alguien solicite /
 
-    const usuarios = await Usuario.find({}, 'nombre email role google'); //se buscan los usuarios en la BD 
+    const desde = Number(solicitan.query.desde) || 0; // el query es lo que escribas despues del ?desde=5 por ejemplo para decir cuantos resultados quieres si no mandan el numero sera un 0 por defecto
+
+    /*   const usuarios = await Usuario.find({}, 'nombre email role google') //se buscan los usuarios en la BD 
+          .skip(desde) // decimos que queremos datos a partir del numero
+          .limit(5);
+
+      const totalusuarios = await Usuario.count(); */
+
+    const [usuarios, totalusuarios] = await Promise.all([
+        Usuario.find({}, 'nombre email role google img')
+        .skip(desde)
+        .limit(5),
+
+        Usuario.countDocuments()
+
+    ]);
+
+
 
     responder.json({ //se responde en json y es un objeto
         ok: true,
         usuarios,
-        uid: responder.uid
+        uid: responder.uid,
+        totalusuarios
     });
 }
 
