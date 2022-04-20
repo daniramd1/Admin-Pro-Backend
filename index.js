@@ -22,6 +22,9 @@ app.use(express.json()); //se coloca antes de las rutas
 //Base de datos
 dbConnection();
 
+//Directorio Publico
+app.use(express.static('public'));
+
 
 //Rutas
 app.use('/api/usuarios', require('./routes/usuarios')); //definimos la ruta y de donde sacaremos las rutas
