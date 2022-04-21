@@ -3,9 +3,11 @@
 */
 const { Router } = require('express');
 const { check } = require('express-validator'); //para validar datos
-const { validarCampos } = require('../middlewares/validar-campos')
+const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
-const { login, googleSignIn } = require('../controllers/auth')
+
+const { login, googleSignIn, renewToken } = require('../controllers/auth')
 
 const router = Router();
 
@@ -26,6 +28,10 @@ router.post('/google', [
 
     ],
     googleSignIn);
+
+//por si ya expiro el token sacarlo de la sesion y renovarlo
+
+router.get('/renew', validarJWT, renewToken);
 
 
 

@@ -24,7 +24,7 @@ router.post('/', [
     //aqui de ponen los middewerls
     validarJWT,
     check('nombre', 'El nombre del Medico es necesario').not().isEmpty(),
-    check('hospiital', 'El hospitalID debe de ser valido').isMongoId(),
+    check('hospital', 'El hospitalID debe de ser valido').isMongoId(),
     validarCampos
 
 ], crearMedico); //archivo para capturar los usuarios 
@@ -32,10 +32,14 @@ router.post('/', [
 
 router.put('/:id', [
 
+    validarJWT,
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('hospital', 'El hospital es obligatorio').not().isEmpty(),
+    validarCampos,
 
 ], actualizarMedico);
 
 
-router.delete('/:id', borrarMedico);
+router.delete('/:id', validarJWT, borrarMedico);
 
 module.exports = router;
